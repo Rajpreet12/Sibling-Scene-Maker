@@ -1,0 +1,139 @@
+{
+  "title": "One Spot Left",
+  "subtitle": "Sarvgun & Elahi, Episode 1",
+  "moral": "Lesson learned: teammates beat rivals. There was only one spot on the sign-up sheet, but there was always room for two sisters on the same team.",
+  "acts": [
+    {
+      "title": "Setup",
+      "subtitle": "everybody wants the same slot",
+      "scenes": [
+        {
+          "title": "Star of the House",
+          "focus": "sarvgun",
+          "location": "living-room",
+          "action": "Sarvgun runs her dance routine in the living room, clean and confident. Elahi watches from the doorway, arms crossed, unconvinced.",
+          "lines": [
+            { "speaker": "sarvgun", "text": "Five, six, seven, eight, and that's how it's done." },
+            { "speaker": "elahi", "text": "Cool. I'm gonna do something way cooler." }
+          ]
+        },
+        {
+          "title": "The Sign-Up Sheet",
+          "focus": "school",
+          "location": "hallway",
+          "action": "School hallway. The talent show sheet has exactly one slot left in their category. Both sisters lunge for the pen at once.",
+          "lines": [
+            { "speaker": "teacher", "text": "One spot left. Whoever's ready first by Friday gets it." },
+            { "speaker": "sarvgun", "text": "That's mine!" },
+            { "speaker": "elahi", "text": "That's mine!" }
+          ]
+        },
+        {
+          "title": "Turf War",
+          "focus": "school",
+          "location": "living-room",
+          "action": "Masking tape splits the living room into two practice zones. Their parents have clearly seen this movie before.",
+          "lines": [
+            { "speaker": "elahi", "text": "Your side ends at the couch." },
+            { "speaker": "sarvgun", "text": "The couch is my side." }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Escalation",
+      "subtitle": "rehearsals go sideways",
+      "scenes": [
+        {
+          "title": "Rival Prep Montage",
+          "focus": "both",
+          "location": "living-room",
+          "business": "rehearsal",
+          "action": "Sarvgun drills the same eight counts until they're perfect. Elahi builds a magic act out of kitchen props: a disappearing spoon, a levitating toy with very visible string.",
+          "lines": []
+        },
+        {
+          "title": "Accidental Sabotage",
+          "focus": "elahi",
+          "location": "living-room",
+          "business": "sabotage",
+          "action": "Elahi's rabbit puppet gets borrowed as a hairbrush. In return, her make-it-disappear trick actually deletes Sarvgun's rehearsal playlist.",
+          "lines": [
+            { "speaker": "sarvgun", "text": "Where is my playlist?!" },
+            { "speaker": "elahi", "text": "Ta-da? I didn't mean for real, for real." }
+          ]
+        },
+        {
+          "title": "The Big Blowout",
+          "focus": "both",
+          "location": "living-room",
+          "mood": "angry",
+          "action": "One day left. Sarvgun still has no music. Elahi still has no working trick. Neither one will admit it, and it comes out sideways.",
+          "lines": [
+            { "speaker": "sarvgun", "text": "This is your fault. If you weren't so loud about entering, I would not be panicking right now." },
+            { "speaker": "elahi", "text": "My fault? You are the one who would not just share the spot!" },
+            { "speaker": "sarvgun", "text": "Because it is my act, Elahi, not yours!" },
+            { "speaker": "elahi", "text": "Fine! I wish I had a different sister!" },
+            { "speaker": "sarvgun", "text": "Fine! Have the whole house, I do not even care!" }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "The Turn",
+      "subtitle": "midnight, living room, no more tape",
+      "scenes": [
+        {
+          "title": "Sorry, In the Dark",
+          "focus": "both",
+          "location": "living-room",
+          "mood": "warm",
+          "night": true,
+          "action": "Midnight. Both sneak downstairs to practice alone, still upset, and collide in the dark instead.",
+          "lines": [
+            { "speaker": "sarvgun", "text": "Ow. Sorry, I did not see you there." },
+            { "speaker": "elahi", "text": "Me neither. I am sorry too. About earlier." },
+            { "speaker": "sarvgun", "text": "I did not mean what I said. I do not actually want a different sister." },
+            { "speaker": "elahi", "text": "I do not want a different sister either. You are my favorite one there is." }
+          ]
+        },
+        {
+          "title": "The Idea",
+          "focus": "idea",
+          "location": "living-room",
+          "mood": "warm",
+          "action": "Elahi fumbles a trick, and it lands right on the beat Sarvgun is humming. A beat of silence. Then both talk at once.",
+          "lines": [
+            { "speaker": "elahi", "text": "Wait. Do that hum again." },
+            { "speaker": "sarvgun", "text": "Elahi, that's actually good." }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Curtain",
+      "subtitle": "one act, two sisters",
+      "scenes": [
+        {
+          "title": "One Act, Two Sisters",
+          "focus": "both",
+          "location": "hallway",
+          "action": "Friday morning. Instead of competing for the one slot, they ask to enter together, a dance routine built around Elahi's illusions.",
+          "lines": [
+            { "speaker": "teacher", "text": "A duo act? I like it." }
+          ]
+        },
+        {
+          "title": "Curtain Call",
+          "focus": "trophy",
+          "location": "stage",
+          "action": "The mashup act is a little chaotic and completely charming. The crowd loves it. Mid-bow, an old argument reignites right on schedule.",
+          "lines": [
+            { "speaker": "sarvgun", "text": "I'll bow first, I'm older." },
+            { "speaker": "elahi", "text": "I'm smaller, so I bow lower. It's just math." }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+Category: Personal Expression
+Lane: Community
+Live app: http://cartoon-generator-frontendbucket-7bac0plh3woi.s3-website-us-east-1.amazonaws.com
+
+The pitch
+Type dialogue for two sister characters, pick a mood and location — or paste a rough script — and get back a real animated video clip, voiced and rendered live on AWS in under a minute.
+
+The story
+This started as something smaller and personal: an animated cartoon about my own two sisters, Elahi and Sarvgun, built scene by scene with Claude Code as my coding agent. That grew into a real question — could the same character art and voice pipeline become generative, so anyone can write a moment between two sisters and watch it come to life? That's Sibling Scene Maker.
+
+What it does
+Write dialogue (line by line or as a loose script) and set a mood, location, activity, and music — or leave them on "Auto" and let the app infer them from your words. Amazon Polly voices each character. AWS Lambda orchestrates Polly → S3 → a Remotion render on its own Lambda function, compositing animated characters (idle/talking/dancing/walking, mood effects like anger squiggles and floating hearts) with a background track into an MP4 that streams back into the page. Both music tracks are synthesized from scratch in code — nothing downloaded or licensed.
+
+How the coding agent shipped this
+Claude Code built and debugged the full AWS deployment end to end, through real failures, not a clean happy path: deployed Remotion Lambda and fixed a silent webpack bundling failure specific to this machine; worked around a Windows/npm incompatibility in AWS SAM's build tooling; diagnosed and raised past a real Lambda concurrency limit silently throttling renders; tracked down an esbuild + AWS SDK v3 bundling bug and fixed it by shipping real node_modules instead of a re-bundled artifact; wrote the Polly→S3→Lambda orchestration function, the status-polling function, the SAM template, and the frontend; set a $5 AWS Budget alarm before deploying anything billable, with every IAM policy scoped to specific resource ARNs. When Bedrock (the planned path for real AI script understanding) turned out to be blocked account-wide, it shipped a rule-based fallback parser instead of stalling the project, keeping that integration point isolated for an easy swap later.
+
+Why Personal Expression / Community
+A content-creation tool for making and sharing a personalized character scene — exactly what Personal Expression means. Community, not Startup, because it was built for the actual people it's about: my sisters.

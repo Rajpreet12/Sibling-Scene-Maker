@@ -1,0 +1,18 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "assemble": "node assemble.mjs"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "dependencies": {
+    "@aws-sdk/client-polly": "^3.1138.0",
+    "@aws-sdk/client-s3": "^3.1138.0",
+    "@remotion/lambda-client": "^4.0.523",
+    "music-metadata": "^11.16.0"
+  }
+}

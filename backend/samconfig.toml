@@ -1,0 +1,11 @@
+version = 0.1
+
+[default.deploy.parameters]
+stack_name = "cartoon-generator"
+resolve_s3 = true
+s3_prefix = "cartoon-generator"
+region = "us-east-1"
+capabilities = "CAPABILITY_IAM"
+confirm_changeset = false
+disable_rollback = false
+parameter_overrides = "RemotionFunctionName=\"remotion-render-4-0-523-mem2048mb-disk2048mb-120sec\" RemotionServeUrl=\"https://remotionlambda-useast1-lxwftvy1r4.s3.us-east-1.amazonaws.com/sites/elahi-sarvgun-cartoon/index.html\" RemotionBucket=\"remotionlambda-useast1-lxwftvy1r4\""

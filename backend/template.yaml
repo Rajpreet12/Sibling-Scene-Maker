@@ -1,0 +1,146 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Sibling Scene Maker backend — Polly voices + Remotion Lambda rendering, for the AWS hackathon
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 512
+    Runtime: nodejs24.x
+
+Parameters:
+  RemotionFunctionName:
+    Type: String
+    Description: Name of the already-deployed Remotion Lambda render function
+  RemotionServeUrl:
+    Type: String
+    Description: Serve URL of the deployed Remotion site (index.html)
+  RemotionBucket:
+    Type: String
+    Description: S3 bucket used by Remotion Lambda (site + renders + generated audio)
+
+Resources:
+  HttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      CorsConfiguration:
+        AllowOrigins: ['*']
+        AllowHeaders: ['Content-Type']
+        AllowMethods: ['GET', 'POST', 'OPTIONS']
+      DefaultRouteSettings:
+        ThrottlingBurstLimit: 5
+        ThrottlingRateLimit: 2
+
+  GenerateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: dist/generate/
+      Handler: generate.handler
+      Timeout: 60
+      Environment:
+        Variables:
+          REMOTION_REGION: !Ref AWS::Region
+          REMOTION_FUNCTION_NAME: !Ref RemotionFunctionName
+          REMOTION_SERVE_URL: !Ref RemotionServeUrl
+          REMOTION_BUCKET: !Ref RemotionBucket
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: polly:SynthesizeSpeech
+              Resource: '*'
+            - Effect: Allow
+              Action:
+                - s3:PutObject
+                - s3:GetObject
+              Resource: !Sub arn:aws:s3:::${RemotionBucket}/*
+            - Effect: Allow
+              Action: lambda:InvokeFunction
+              Resource: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${RemotionFunctionName}
+      Events:
+        Generate:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /generate
+            Method: POST
+
+  StatusFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: dist/status/
+      Handler: status.handler
+      Environment:
+        Variables:
+          REMOTION_REGION: !Ref AWS::Region
+          REMOTION_FUNCTION_NAME: !Ref RemotionFunctionName
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: lambda:InvokeFunction
+              Resource: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${RemotionFunctionName}
+            - Effect: Allow
+              Action: s3:GetObject
+              Resource: !Sub arn:aws:s3:::${RemotionBucket}/*
+      Events:
+        Status:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /status/{renderId}
+            Method: GET
+
+  # Serves the frontend HTML over the API Gateway's own HTTPS domain. CloudFront is
+  # blocked account-wide (needs AWS Support verification, confirmed via a failed
+  # CreateDistribution call), and S3 website hosting is HTTP-only -- most mobile
+  # browsers force-upgrade bare domains to HTTPS and then fail to connect. Reusing
+  # the HttpApi's execute-api.amazonaws.com domain sidesteps both problems for free.
+  FrontendFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: dist/frontend/
+      Handler: frontend.handler
+      Events:
+        Frontend:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /
+            Method: GET
+
+  # Plain S3 static website hosting (no CloudFront, matching the Pulse project's
+  # setup — this AWS account isn't yet verified for CloudFront resource creation).
+  # Kept as a secondary mirror; the HTTPS URL above is the canonical one to share.
+  FrontendBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: false
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: false
+
+  FrontendBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref FrontendBucket
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal: '*'
+            Action: s3:GetObject
+            Resource: !Sub ${FrontendBucket.Arn}/*
+
+Outputs:
+  ApiUrl:
+    Value: !Sub https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com
+  FrontendBucketName:
+    Value: !Ref FrontendBucket
+  FrontendWebsiteUrl:
+    Value: !GetAtt FrontendBucket.WebsiteURL
